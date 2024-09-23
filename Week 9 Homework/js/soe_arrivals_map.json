@@ -1,0 +1,58 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "State of Entry of Arrivals (2020-2024)",
+  "width": 800,
+  "height": 400,
+  "projection": {
+    "type": "equalEarth"
+  },
+  "params": [
+    {
+      "name": "year",
+      "value": "2020", 
+      "bind": {
+        "input": "select",
+        "options": ["2020", "2021", "2022", "2023", "2024"],
+        "labels": ["2020", "2021", "2022", "2023", "2024"],
+        "name": "Select Year: "
+      }
+    }
+  ],
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/meja0002/FIT3179/refs/heads/main/Week%209%20Homework/js/ne_1_malaysa_states.topojson",
+        "format": { "type": "topojson", "feature": "ne_10m_admin_1_states_provinces" }
+      },
+      "mark": { "type": "geoshape", "stroke": "black" },
+      "encoding": {
+        "color": {
+          "field": "arrivals",
+          "type": "quantitative",
+          "scale": { "scheme": "darkred" }
+        },
+        "tooltip": [
+          { "field": "properties.name", "type": "nominal", "title": "State Name" },
+          { "field": "arrivals", "type": "quantitative" },
+          { "field": "year", "type": "ordinal", "title": "Year of Data" }
+        ]
+      },
+      "transform": [
+        {
+          "lookup": "properties.name",
+          "from": {
+            "data": {
+              "url": {"signal": "'data/soe_yearly_arrivals_' + year + '.csv'"},
+              "format": { "type": "csv" }
+            },
+            "key": "soe",
+            "fields": ["arrivals", "year"]
+          }
+        },
+        {
+          "filter": "datum.year == year"
+        }
+      ]
+    }
+  ]
+}
