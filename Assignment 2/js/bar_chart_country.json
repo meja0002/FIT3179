@@ -1,0 +1,72 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Bar chart with thicker bars, horizontal scroll, and a dynamic filter for minimum TotalArrivals.",
+  "data": {
+    "url": "data/arrivals_soe.csv",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "transform": [
+    {
+      "calculate": "datum.arrivals",
+      "as": "TotalArrivals"
+    },
+    {
+      "filter": "datum.TotalArrivals > threshold"
+    }
+  ],
+  "params": [
+    {
+      "name": "threshold",
+      "value": 50,
+      "bind": {
+        "input": "range",
+        "min": 0,
+        "max": 1000,
+        "step": 10,
+        "name": "Minimum Arrivals: "
+      }
+    }
+  ],
+  "mark": "bar",
+  "encoding": {
+    "x": {
+      "field": "date",
+      "type": "temporal",
+      "axis": {
+        "title": "Date"
+      },
+      "scale": {
+        "rangeStep": 50
+      }
+    },
+    "y": {
+      "field": "TotalArrivals",
+      "type": "quantitative",
+      "axis": {
+        "title": "Arrivals"
+      }
+    },
+    "color": {
+      "field": "country",
+      "type": "nominal",
+      "legend": {
+        "title": "Country"
+      }
+    },
+    "tooltip": [
+      {"field": "date", "type": "temporal"},
+      {"field": "country", "type": "nominal"},
+      {"field": "TotalArrivals", "type": "quantitative"}
+    ]
+  },
+  "width": 1000,
+  "height": 400,
+  "config": {
+    "view": {
+      "continuousWidth": 800,
+      "continuousHeight": 400
+    }
+  }
+}

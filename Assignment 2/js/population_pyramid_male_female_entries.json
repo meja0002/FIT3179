@@ -1,0 +1,80 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Population Pyramid for Arrivals by Gender",
+  "params": [
+    {
+      "name": "year",
+      "value": "2020",
+      "bind": {
+        "input": "select",
+        "options": ["2020", "2021", "2022", "2023", "2024"],
+        "labels": ["2020", "2021", "2022", "2023", "2024"],
+        "name": "Select Year: "
+      }
+    }
+  ],
+  "data": {
+    "url": "data/soe_yearly_arrivals_total_countries.csv",
+    "format": { "type": "csv" }
+  },
+  "transform": [
+    {
+      "filter": "datum.year == year"
+    },
+    {
+      "calculate": "-datum.arrivals_male",
+      "as": "Male Arrivals"
+    },
+    {
+      "calculate": "datum.arrivals_female",
+      "as": "Female Arrivals"
+    },
+    {
+      "calculate": "datum.arrivals_female + datum.arrivals_male",
+      "as": "total_arrivals"
+    },
+    {
+      "fold": ["Female Arrivals", "Male Arrivals"],
+      "as": ["gender", "arrivals"]
+    }
+  ],
+  "width": "container",
+  "height": "container",
+  "mark": "bar",
+  "encoding": {
+    "y": {
+      "field": "soe",
+      "type": "nominal",
+      "sort": {
+        "field": "total_arrivals",
+        "order": "ascending"
+      },
+      "axis": { "title": "State/Region" }
+    },
+    "x": {
+      "field": "arrivals",
+      "type": "quantitative",
+      "axis": {
+        "title": "Number of Arrivals",
+        "labelExpr": "abs(datum.value)"
+      }
+    },
+    "color": {
+      "field": "gender",
+      "type": "nominal",
+      "scale": {
+        "domain": ["Female Arrivals", "Male Arrivals"],
+        "range": ["#A3C1AD", "#F6C90E"]
+      },
+      "legend": {
+        "title": "Gender",
+        "values": ["Female Arrivals", "Male Arrivals"]
+      }
+    },
+    "tooltip": [
+      { "field": "soe", "title": "State of Entry" },
+      { "field": "gender", "title": "Gender" },
+      { "field": "arrivals", "title": "Arrivals Number"}
+    ]
+  }
+}

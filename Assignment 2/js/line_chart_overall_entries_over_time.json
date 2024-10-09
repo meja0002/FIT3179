@@ -1,0 +1,48 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Line chart showing the trend of total arrivals to Malaysia from 2020 to June 2024.",
+  "data": {
+    "url": "data/arrivals_soe.csv",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "transform": [
+    {
+      "aggregate": [
+        {
+          "op": "sum",
+          "field": "arrivals",
+          "as": "TotalArrivals"
+        }
+      ],
+      "groupby": ["date"]
+    }
+  ],
+  "mark": {
+    "type": "line",
+    "point": true
+  },
+  "encoding": {
+    "x": {
+      "field": "date",
+      "type": "temporal",
+      "axis": {
+        "title": "Date"
+      }
+    },
+    "y": {
+      "field": "TotalArrivals",
+      "type": "quantitative",
+      "axis": {
+        "title": "Total Arrivals"
+      }
+    },
+    "tooltip": [
+      {"field": "date", "type": "temporal"},
+      {"field": "TotalArrivals", "type": "quantitative"}
+    ]
+  },
+  "width": "container",
+  "height": "container"
+}

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arrivals Map & Population Pyramid</title>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5.22.1"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.5.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.21.0"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 20px auto;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      background-color: white;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .chart-container {
+      margin: 20px 0;
+    }
+
+    .chart-container h2 {
+      text-align: center;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    #arrivals_map {
+      width: 100%;
+      height: 500px;
+    }
+
+    .half {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .half > div {
+      width: 48%; /* Adjusted to fit two charts with margin */
+      height: 400px;
+    }
+
+    #population_pyramid {
+      width: 100%;
+      height: 500px;
+    }
+
+    @media (max-width: 768px) {
+      #arrivals_map, #population_pyramid {
+        height: 350px;
+      }
+      .half > div {
+        height: 300px; /* Adjust height for smaller screens */
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>State Arrivals Visualization</h1>
+
+  <div class="chart-container">
+    <div id="arrivals_map"></div>
+  </div>
+
+  <div class="chart-container half">
+    <div id="line_chart_1"></div>
+    <div id="line_chart_2"></div>
+  </div>
+
+  <div class="chart-container">
+    <div id="population_pyramid"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  // Embed arrivals map
+  var mapSpec = "js/soe_arrivals_map.json";
+  vegaEmbed('#arrivals_map', mapSpec).then(function(result) {
+    // Access the Vega view instance as result.view
+  }).catch(console.error);
+
+  // Embed first line chart
+  var lineChartSpec = "js/line_chart_overall_entries_over_time.json";
+  vegaEmbed('#line_chart_1', lineChartSpec).then(function(result) {
+    // Access the Vega view instance as result.view
+  }).catch(console.error);
+
+  // Embed second line chart (for now, same as the first)
+  var treeMapChartSpec = "js/line_chart_overall_entries_over_time.json";
+  vegaEmbed('#line_chart_2', lineChartSpec).then(function(result) {
+    // Access the Vega view instance as result.view
+  }).catch(console.error);
+
+  // Embed population pyramid
+  var pyramidSpec = "js/population_pyramid_male_female_entries.json";
+  vegaEmbed('#population_pyramid', pyramidSpec).then(function(result) {
+    // Access the Vega view instance as result.view
+  }).catch(console.error);
+</script>
+
+</body>
+
+</html>
