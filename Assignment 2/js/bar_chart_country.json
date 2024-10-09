@@ -1,72 +1,53 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Bar chart with thicker bars, horizontal scroll, and a dynamic filter for minimum TotalArrivals.",
-  "data": {
-    "url": "data/arrivals_soe.csv",
-    "format": {
-      "type": "csv"
-    }
+  "title": {
+    "text": {"signal": "'Top ' + ((topGroup - 1) * 20 + 1) + '-' + (topGroup * 20) + ' Countries by Arrivals'"},
+    "fontSize": 16
   },
+  "data": {
+    "url": {"signal": "'data/top_countries_' + topGroup + '.csv'"},
+    "format": { "type": "csv" }
+  },
+  "width": "container",
+  "height": "container",
   "transform": [
     {
-      "calculate": "datum.arrivals",
-      "as": "TotalArrivals"
-    },
-    {
-      "filter": "datum.TotalArrivals > threshold"
-    }
-  ],
-  "params": [
-    {
-      "name": "threshold",
-      "value": 50,
-      "bind": {
-        "input": "range",
-        "min": 0,
-        "max": 1000,
-        "step": 10,
-        "name": "Minimum Arrivals: "
-      }
+      "filter": "datum.arrivals > 0"
     }
   ],
   "mark": "bar",
   "encoding": {
     "x": {
-      "field": "date",
-      "type": "temporal",
-      "axis": {
-        "title": "Date"
-      },
-      "scale": {
-        "rangeStep": 50
-      }
+      "field": "country",
+      "type": "nominal",
+      "title": "Country"
     },
     "y": {
-      "field": "TotalArrivals",
+      "field": "arrivals",
       "type": "quantitative",
-      "axis": {
-        "title": "Arrivals"
-      }
+      "title": "Arrivals"
     },
     "color": {
       "field": "country",
       "type": "nominal",
-      "legend": {
-        "title": "Country"
-      }
+      "legend": {"title": "Country"},
+      "title": "Country"
     },
     "tooltip": [
-      {"field": "date", "type": "temporal"},
-      {"field": "country", "type": "nominal"},
-      {"field": "TotalArrivals", "type": "quantitative"}
+      {"field": "country", "type": "nominal", "title": "Country"},
+      {"field": "arrivals", "type": "quantitative", "title": "Total Arrivals"}
     ]
   },
-  "width": 1000,
-  "height": 400,
-  "config": {
-    "view": {
-      "continuousWidth": 800,
-      "continuousHeight": 400
+  "params": [
+    {
+      "name": "topGroup",
+      "value": "1",
+      "bind": {
+        "input": "select",
+        "options": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+        "labels": ["Top 1-20", "Top 21-40", "Top 41-60", "Top 61-80", "Top 81-100", "Top 101-120", "Top 121-140", "Top 141-160", "Top 161-180"],
+        "name": "Top Group: "
+      }
     }
-  }
+  ]
 }

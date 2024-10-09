@@ -111,8 +111,8 @@
   }).catch(console.error);
 
   // Embed second line chart (for now, same as the first)
-  var treeMapChartSpec = "js/line_chart_overall_entries_over_time.json";
-  vegaEmbed('#line_chart_2', lineChartSpec).then(function(result) {
+  var barChartSpec = "js/bar_chart_country.json";
+  vegaEmbed('#line_chart_2', barChartSpec).then(function(result) {
     // Access the Vega view instance as result.view
   }).catch(console.error);
 
