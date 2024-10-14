@@ -28,7 +28,8 @@
       "field": "date",
       "type": "temporal",
       "axis": {
-        "title": "Date"
+        "title": "Date",
+        "format": "%b %Y"
       }
     },
     "y": {

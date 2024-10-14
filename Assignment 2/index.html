@@ -11,7 +11,7 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f4f4f9;
+      background-color: #e0f7fa; /* Light blue background outside the charts container */
       margin: 0;
       padding: 20px;
       display: flex;
@@ -19,6 +19,20 @@
       align-items: center;
       flex-direction: column;
       min-height: 100vh;
+    }
+
+    .main-title {
+      font-family: serif;
+      font-size: 3em; /* Increased font size */
+      color: #ffffff; /* Main title text color */
+      text-align: center;
+      margin-bottom: 20px;
+      background-color: #00796b; /* Dark teal background for the banner */
+      padding: 20px;
+      border-radius: 10px; /* Rounded corners */
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+      width: 100%;
+      max-width: 1200px;
     }
 
     .container {
@@ -38,7 +52,15 @@
     }
 
     .chart-container {
-      margin: 20px 0;
+      margin: 60px 0; /* Increased space between charts */
+    }
+
+    .chart-title {
+      text-align: center;
+      font-size: 1.8em; /* Increased font size for titles */
+      color: #00796b; /* Dark teal for chart titles */
+      margin-bottom: 10px; /* Space below title */
+      font-weight: bold; /* Make titles bold */
     }
 
     .chart-container h2 {
@@ -49,7 +71,7 @@
 
     #arrivals_map {
       width: 100%;
-      height: 500px;
+      height: 400px; /* Adjusted to prevent vertical stretching */
     }
 
     .half {
@@ -58,13 +80,39 @@
     }
 
     .half > div {
-      width: 48%; /* Adjusted to fit two charts with margin */
-      height: 400px;
+      width: 48%;
+      height: 350px; /* Adjusted height to fit content */
     }
 
     #population_pyramid {
       width: 100%;
-      height: 500px;
+      height: 400px;
+    }
+
+    #line_chart {
+      width: 100%;
+      height: 400px;
+    }
+
+    #bar_chart {
+      width: 70%;
+      height: 400px;
+    }
+
+    .map-summary {
+      font-family: 'Georgia', serif; /* Non-standard serif typeface */
+      font-size: 1.2em;
+      line-height: 1.6;
+      color: #4d4d4d; /* Dark grey for readability */
+      margin-top: 20px;
+      text-align: justify; /* Balanced text alignment */
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 10px;
+      background-color: #f4f4f9; /* Subtle background color for readability */
+      border-radius: 8px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
     }
 
     @media (max-width: 768px) {
@@ -80,20 +128,51 @@
 
 <body>
 
+<h1 class="main-title">Arrivals in Malaysia (2020 - 2024)</h1> <!-- Main Title as Banner -->
+
 <div class="container">
-  <h1>State Arrivals Visualization</h1>
 
   <div class="chart-container">
+    <h2 class="chart-title">Total Arrivals By State In Each Year</h2> <!-- Title for Map -->
     <div id="arrivals_map"></div>
   </div>
 
-  <div class="chart-container half">
-    <div id="line_chart_1"></div>
-    <div id="line_chart_2"></div>
+  <!-- Summary below the map -->
+  <div class="map-summary">
+    Over the years, from <strong>2020 to 2024</strong>, <em>Johor</em> consistently saw the highest number of arrivals, except for <strong>2021</strong>, where other states experienced greater entries. The trend highlights Johor’s prominent role as a major entry point into Malaysia during this period.
   </div>
 
   <div class="chart-container">
+    <h2 class="chart-title">Trends in Total Arrivals (2020 - 2024)</h2> <!-- Title for Line Chart -->
+    <div id="line_chart"></div>
+  </div>
+
+  <div class="map-summary">
+    <p>
+      The trend of arrivals in Malaysia witnessed significant fluctuations over the years. A notable decline began in <strong>January 2020</strong>, coinciding with the onset of the <em>COVID-19 pandemic</em>, leading to travel restrictions and a decrease in international arrivals.
+    </p>
+    <p>
+      This downward trend persisted until <strong>March 2022</strong>, when the gradual reopening of borders allowed for an increase in arrivals. By mid-2022, arrivals started to pick up as countries eased travel restrictions and tourism activities resumed.
+    </p>
+  </div>
+
+  <div class="chart-container half">
+    <div id="bar_chart"></div>
+    <div class="map-summary">
+      <p>
+        Over the years combined from <strong>2020 to 2024</strong>, <strong>Singapore</strong> had the most entries into Malaysia by a significant margin, reflecting its status as a major source of arrivals. This trend also explains why <strong>Johor</strong> consistently recorded the highest number of entries in almost every year, as the proximity between Singapore and Johor facilitates easy travel. Notably, Malaysia received arrivals from a total of <strong>180 countries</strong>, highlighting its global connectivity and attractiveness as a travel destination.
+      </p>
+    </div>
+  </div>
+
+  <div class="chart-container">
+    <h2 class="chart-title">Arrival Distribution by Gender Across Malaysian States (2020 - 2024)</h2>
     <div id="population_pyramid"></div>
+    <div class="map-summary">
+      <p>
+        Throughout the years from <strong>2020 to 2024</strong>, the arrival distribution by gender consistently showed a greater number of male entries, particularly notable in <strong>2021</strong>. This dominance in male arrivals can be attributed to several factors, including economic opportunities and labor demands that drew more male workers to Malaysia during this period. Additionally, many males were likely to travel for work-related purposes, contributing to the higher entry numbers compared to females.
+      </p>
+    </div>
   </div>
 </div>
 
@@ -106,13 +185,13 @@
 
   // Embed first line chart
   var lineChartSpec = "js/line_chart_overall_entries_over_time.json";
-  vegaEmbed('#line_chart_1', lineChartSpec).then(function(result) {
+  vegaEmbed('#line_chart', lineChartSpec).then(function(result) {
     // Access the Vega view instance as result.view
   }).catch(console.error);
 
   // Embed second line chart (for now, same as the first)
   var barChartSpec = "js/bar_chart_country.json";
-  vegaEmbed('#line_chart_2', barChartSpec).then(function(result) {
+  vegaEmbed('#bar_chart', barChartSpec).then(function(result) {
     // Access the Vega view instance as result.view
   }).catch(console.error);
 

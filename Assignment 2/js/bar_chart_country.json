@@ -2,7 +2,7 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
     "text": {"signal": "'Top ' + ((topGroup - 1) * 20 + 1) + '-' + (topGroup * 20) + ' Countries by Arrivals'"},
-    "fontSize": 16
+    "fontSize": 28
   },
   "data": {
     "url": {"signal": "'data/top_countries_' + topGroup + '.csv'"},

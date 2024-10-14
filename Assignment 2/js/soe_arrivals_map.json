@@ -1,6 +1,5 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "State of Entry of Arrivals (2020-2024)",
   "width": "container",
   "height": "container",
   "projection": {
@@ -26,14 +25,9 @@
       },
       "mark": { "type": "geoshape", "stroke": "black" },
       "encoding": {
-        "color": {
-          "field": "arrivals",
-          "type": "quantitative",
-          "scale": { "scheme": "blues" }
-        },
         "tooltip": [
           { "field": "properties.name", "type": "nominal", "title": "State Name" },
-          { "field": "arrivals", "type": "quantitative" },
+          { "field": "arrivals", "type": "quantitative", "title": "Arrivals" },
           { "field": "year", "type": "ordinal", "title": "Year of Data" }
         ]
       },
@@ -51,6 +45,51 @@
         },
         {
           "filter": "datum.year == year"
+        }
+      ]
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/meja0002/FIT3179/refs/heads/main/Week%209%20Homework/js/ne_1_malaysa_states.topojson",
+        "format": { "type": "topojson", "feature": "ne_10m_admin_1_states_provinces" }
+      },
+      "mark": { "type": "circle", "color": "gold", "opacity": 0.7 },
+      "encoding": {
+        "longitude": { "field": "properties.longitude", "type": "quantitative" },
+        "latitude": { "field": "properties.latitude", "type": "quantitative" },
+        "size": {
+          "field": "arrivals",
+          "type": "quantitative",
+          "title": "Arrivals",
+          "scale": {
+            "type": "sqrt",
+            "range": [25, 2500]
+          }
+        },
+        "tooltip": [
+          { "field": "properties.name", "type": "nominal", "title": "State Name" },
+          { "field": "arrivals", "type": "quantitative", "title": "Arrivals" }
+        ]
+      },
+      "transform": [
+        {
+          "lookup": "properties.name",
+          "from": {
+            "data": {
+              "url": {"signal": "'data/soe_yearly_arrivals_' + year + '.csv'"},
+              "format": { "type": "csv" }
+            },
+            "key": "soe",
+            "fields": ["arrivals", "year"]
+          }
+        },
+        {
+          "filter": "datum.year == year"
+        },
+        {
+          "geopoint": {
+            "fields": ["properties.longitude", "properties.latitude"]
+          }
         }
       ]
     }
