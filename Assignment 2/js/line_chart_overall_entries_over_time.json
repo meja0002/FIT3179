@@ -40,8 +40,8 @@
       }
     },
     "tooltip": [
-      {"field": "date", "type": "temporal"},
-      {"field": "TotalArrivals", "type": "quantitative"}
+      {"field": "date", "type": "temporal", "title":  "Date"},
+      {"field": "TotalArrivals", "type": "quantitative", "title":  "Total Arrivals"}
     ]
   },
   "width": "container",

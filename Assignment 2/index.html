@@ -77,12 +77,23 @@
     .half {
       display: flex;
       justify-content: space-between;
+      flex-wrap: wrap; /* Allow elements to wrap if there's not enough space */
     }
 
     .half > div {
       width: 48%;
-      height: 350px; /* Adjusted height to fit content */
+      height: auto; /* Adjust height to fit content */
+      box-sizing: border-box;
     }
+
+    @media (max-width: 768px) {
+      .half > div {
+        width: 100%; /* Make each element take full width on smaller screens */
+        height: auto; /* Adjust height to fit content */
+        margin-bottom: 20px; /* Add space between the two elements on small screens */
+      }
+    }
+
 
     #population_pyramid {
       width: 100%;
@@ -95,7 +106,7 @@
     }
 
     #bar_chart {
-      width: 70%;
+      width: 100%;
       height: 400px;
     }
 
@@ -156,7 +167,7 @@
     </p>
   </div>
 
-  <div class="chart-container half">
+  <div class="chart-container">
     <div id="bar_chart"></div>
     <div class="map-summary">
       <p>
